@@ -63,4 +63,5 @@ ipcMain.on('bash-function-hello_fn', (event, arg) => {
 bash-function-super-newfn
 ```
 
+So it's time to add a listener on the ipc. BAM!  stdout from your lovely bash fn is ready for the renderer
 
