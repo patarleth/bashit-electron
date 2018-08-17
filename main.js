@@ -35,8 +35,8 @@ function bashit_fn(sender, fnName) {
             console.error(err);
             msg += err;
         }
-        
-        sender.send('hello-from-main', msg);
+        var eventName = 'bash-function-' + fnName;
+        sender.send(eventName, msg);
         console.log(msg);
     });
 }
@@ -45,25 +45,8 @@ function hello_fn(sender) {
     bashit_fn(sender, 'hello_fn');
 }
 
-ipcMain.on('hello-from-renderer', (event, arg) => {
+ipcMain.on('call-bash-function-hello_fn', (event, arg) => {
     hello_fn(event.sender);
-    
-/*
-    var executablePath = '/usr/bin/env'
-    var source_path = 'source ' + __dirname + '/bash_src/lib.sh; hello_fn';
-    var parameters = [ 'bash', '-c', source_path ];
-    
-    child_process(executablePath, parameters, function(err, data) {
-        var msg = data.toString();
-        if (err) {
-            console.error(err);
-            msg += err;
-        }
-        
-        event.sender.send('hello-from-main', msg);
-        console.log(msg);
-    });
-*/
 })
 
 // This method will be called when Electron has finished

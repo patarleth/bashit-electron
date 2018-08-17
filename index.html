@@ -18,13 +18,13 @@
 
       // when you click the button it sends an event named 'hello-from-renderer' to the backend process
       helloButton.addEventListener('click', function(){
-        ipc.send('hello-from-renderer', 'hello');
+        ipc.send('call-bash-function-hello_fn', 'hello');
         console.log('hello-button clicked');
       });
 
-      // iff the backend sends an event named 'hello-from-main' the h2 header named 'hello-header' html is updated
-      ipc.on('hello-from-main',(event,dataFromMain) => {
-        console.log( 'hello-from-main |' + dataFromMain + '|');
+      // iff the backend sends an event named 'bash-function-hello_fn' the h2 header named 'hello-header' html is updated
+      ipc.on('bash-function-hello_fn',(event,dataFromMain) => {
+        console.log( 'bash-function-hello_fn |' + dataFromMain + '|');
         var helloH2 = document.getElementById('hello-header');
         helloH2.innerHTML = dataFromMain;
       });
