@@ -4,11 +4,18 @@ A slightly less simple electron app that execs a bash function when you click a 
 
 (not using angular just yet)
 
-### setup 
+### reqs & setup
 ```
 npm install electron-packager --save-dev
 npm install electron-packager -g
 npm install --save-dev bashit-electron
+brew install imagemagick
+npm install png2icns -g
+```
+
+imagemagick and png2icns are not actually required. Both are used by package.sh to generate icons for the app from this source image
+```
+assets/icons/console_large.png
 ```
 
 ### build
@@ -22,6 +29,13 @@ npm start
 ```
 
 ### package the app for distribution
+
+#### package.sh
+
+package.sh can use imagemagic (convert) and png2icns to create the icons from console_large.png. If neither app is installed script still works but the app will have electrons default icon set.
+
+If the icons exist, package.sh runs:
+
 ```
 electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/icon.icns --prune=true --out=release-builds && \
 electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/icon_256.png --prune=true --out=release-builds
@@ -32,9 +46,9 @@ electron-packager . electron-tutorial-app --overwrite --asar=true --platform=lin
     open -a "$(pwd)/release-builds/bashit-electron-darwin-x64/bashit-electron.app"
 ```
 
-### add your own bash functions
+### extending the app by adding more bash functions
 
-1) add your super new fn to bash_src/lib.sh
+1) add your super new fn into bash_src/lib.sh like so
 
 ```
 super-newfn() {
@@ -42,26 +56,32 @@ super-newfn() {
 }
 ```
 
-2) using hello_fn in main.js as a template, add js function to call your bash function
+2) using hello_fn as a template in main.js, add a js function to call your bash function ala
 
 ```
 function super-newfn(sender) {
-    bashit_fn(sender, 'super-newfn);
+    bashit_fn(sender, 'super-newfn');
 }
 ```
 
-3) to call you brand new function from index.html, you have to add an ipc call in index.html to send a message with a new name.  With a new event name sent, in main.js you have to add a listener
+3) call you brand new function from index.html. 
+
+  add an ipc call in index.html that sends a message with the function name as part of the event.
 ```
 ipcMain.on('bash-function-hello_fn', (event, arg) => {
     hello_fn(event.sender);
 })
 ```
 
-4) Then(!) when the bash function is called, main.js will emits a message back to the renderer prefix bash-function-super- then the function name like so:
+4) Then, with the renderer emmiting a message, modify main.js to listen for the event, and run the function. I recommend an event named something like -
 
 ```
 bash-function-super-newfn
 ```
 
-So it's time to add a listener on the ipc. BAM!  stdout from your lovely bash fn is ready for the renderer
+5) finally(!) emit a reponse ipc event from main.js with the string returned by the bash subshell.
+
+6) go back to index.html and listen for the new response event and...
+
+BAM!  stdout from your lovely bash fn is ready for the renderer
 
