@@ -51,12 +51,16 @@ function super-newfn(sender) {
 ```
 
 3) to call you brand new function from index.html, you have to add an ipc call in index.html to send a message with a new name.  With a new event name sent, in main.js you have to add a listener
-```ipcMain.on('bash-function-hello_fn', (event, arg) => {
+```
+ipcMain.on('bash-function-hello_fn', (event, arg) => {
     hello_fn(event.sender);
-})```
+})
+```
 
 4) Then(!) when the bash function is called, main.js will emits a message back to the renderer prefix bash-function-super- then the function name like so:
 
-```bash-function-super-newfn```
+```
+bash-function-super-newfn
+```
 
 
