@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>bash exec functions!</title>
+  </head>
+  <body>
+    <h1>bash exec function examples!</h1>
+
+    <button id="hello-button">test bash function</button>
+    
+    <h2 id="hello-header">...</h2>
+
+    <script>
+      var ipc = require('electron').ipcRenderer;
+      
+      var helloButton = document.getElementById('hello-button');
+
+      // when you click the button it sends an event named 'hello-from-renderer' to the backend process
+      helloButton.addEventListener('click', function(){
+        ipc.send('hello-from-renderer', 'hello');
+        console.log('hello-button clicked');
+      });
+
+      // iff the backend sends an event named 'hello-from-main' the h2 header named 'hello-header' html is updated
+      ipc.on('hello-from-main',(event,dataFromMain) => {
+        console.log( 'hello-from-main |' + dataFromMain + '|');
+        var helloH2 = document.getElementById('hello-header');
+        helloH2.innerHTML = dataFromMain;
+      });
+     </script
+  </body>
+</html>
