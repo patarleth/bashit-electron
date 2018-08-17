@@ -23,8 +23,8 @@ npm start
 
 ### package the app for distribution
 ```
-electron-packager . --overwrite --platform=darwin --arch=x64 --prune=true --out=release-builds && \
-electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --prune=true --out=release-builds
+electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/icon.icns --prune=true --out=release-builds && \
+electron-packager . electron-tutorial-app --overwrite --asar=true --platform=linux --arch=x64 --icon=assets/icons/png/icon_256.png --prune=true --out=release-builds
 ```
 
 ### run the packaged app (macos)

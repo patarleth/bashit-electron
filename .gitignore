@@ -1,5 +1,8 @@
 *asar
 node_modules/
 release-builds/
+assets/icons/png/*
+assets/icons/ico/*
+assets/icons/*icns
 package-lock.json
 package.json
