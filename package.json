@@ -1,0 +1,16 @@
+{
+    "name": "bashit-electron-demo",
+    "version": "1.0.0",
+    "description": "bash + electron demo",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron ."
+    },
+    "repository": "https://github.com/patarleth/bashit-electron",
+    "author": "patarleth",
+    "license": "ISC",
+    "devDependencies": {
+        "electron": "^2.0.7",
+        "electron-packager": "^12.1.0"
+    }
+}
